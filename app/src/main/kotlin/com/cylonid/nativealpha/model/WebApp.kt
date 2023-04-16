@@ -51,6 +51,7 @@ class WebApp {
     var isEnableZooming = false
     var isBiometricProtection = false
     var isAllowMediaPlaybackInBackground = false
+    var isContextMenuEnabled = true
 
     constructor(url: String, id: Int) {
         title = url.replace("http://", "").replace("https://", "").replace("www.", "")
@@ -104,6 +105,7 @@ class WebApp {
         isEnableZooming = other.isEnableZooming
         isBiometricProtection = other.isBiometricProtection
         isAllowMediaPlaybackInBackground = other.isAllowMediaPlaybackInBackground
+        isContextMenuEnabled = other.isContextMenuEnabled
     }
 
     private fun initDefaultSettings() {

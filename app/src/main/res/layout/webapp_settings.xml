@@ -520,6 +520,12 @@
                                                                 android:checked="@={webapp.allowMediaPlaybackInBackground}"
                                 android:text="@string/allow_media_playback_in_background" />
 
+                            <Switch
+                                android:id="@+id/switchEnableContextMenu"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:checked="@={webapp.contextMenuEnabled}"
+                                android:text="@string/enable_context_menu" />
 
                         </LinearLayout>
 

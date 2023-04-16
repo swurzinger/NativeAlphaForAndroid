@@ -218,14 +218,17 @@ public class WebViewActivity extends AppCompatActivity implements EasyPermission
         CUSTOM_HEADERS = initCustomHeaders(webapp.isSendSavedataRequest());
         loadURL(wv, url);
         wv.setWebChromeClient(new CustomWebChromeClient());
-        wv.setOnLongClickListener(view -> {
-            if(fallbackToDefaultLongClickBehaviour) {
-                fallbackToDefaultLongClickBehaviour = false;
-                return false;
-            }
-            showWebViewPopupMenu();
-            return true;
-        });
+
+        if (webapp.isContextMenuEnabled()) {
+            wv.setOnLongClickListener(view -> {
+                if (fallbackToDefaultLongClickBehaviour) {
+                    fallbackToDefaultLongClickBehaviour = false;
+                    return false;
+                }
+                showWebViewPopupMenu();
+                return true;
+            });
+        }
 
         wv.setDownloadListener((dl_url, userAgent, contentDisposition, mimeType, contentLength) -> {
 
