@@ -57,7 +57,7 @@ android {
         viewBinding true
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '17'
     }
     buildTypes {
         release {
@@ -97,8 +97,8 @@ android {
         execution 'ANDROIDX_TEST_ORCHESTRATOR'
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     namespace 'com.cylonid.nativealpha'
 
@@ -159,11 +159,15 @@ String placeholder = "<!--Placeholder-->"
             fileName.replace("WebViewActivity.java", "__WebViewActivity_${i}.java")
         }
     }
+    // TODO: these task actually don't depend on each other, check why gradle thinks they do
+    if (i > 0) trTask.get().dependsOn tasks.named("createWebViewclass${i-1}").get()
     preBuild.dependsOn trTask
 }
 
 def renameManifest = tasks.register("renameManifest") {
-    ant.move(file: 'src/main/AndroidManifest.xml', tofile:'src/main/AndroidManifest_original.xml')
+    if (!file('src/main/AndroidManifest_original.xml').exists()) {
+        ant.move(file: 'src/main/AndroidManifest.xml', tofile: 'src/main/AndroidManifest_original.xml')
+    }
 }
 preBuild.dependsOn renameManifest
 
@@ -197,5 +201,6 @@ def generateWebViewActivities = tasks.register( "extendAndroidManifest", Copy ) 
     }
 }
 preBuild.dependsOn generateWebViewActivities
+tasks.named("extendAndroidManifest").get().dependsOn renameManifest
 
-
+0.upto(NUM_OF_CONTAINERS-1) { int i -> tasks.named("extendAndroidManifest").get().dependsOn tasks.named("createWebViewclass${i}").get() }
