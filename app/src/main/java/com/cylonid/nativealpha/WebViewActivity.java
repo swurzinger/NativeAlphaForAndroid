@@ -213,6 +213,8 @@ public class WebViewActivity extends AppCompatActivity implements EasyPermission
         if(webapp.isEnableZooming()) {
             wv.getSettings().setSupportZoom(true);
             wv.getSettings().setBuiltInZoomControls(true);
+        } else {
+            wv.getSettings().setSupportZoom(false);
         }
 
         CUSTOM_HEADERS = initCustomHeaders(webapp.isSendSavedataRequest());
@@ -276,6 +278,8 @@ public class WebViewActivity extends AppCompatActivity implements EasyPermission
 
             }
         });
+
+        /*
         wv.setOnTouchListener(new View.OnTouchListener() {
             private int mode = NONE;
             private float startX;
@@ -337,6 +341,8 @@ public class WebViewActivity extends AppCompatActivity implements EasyPermission
                 return false;
             }
         });
+
+        */
     }
 
     private void setDarkModeIfNeeded() {
